@@ -11,7 +11,7 @@ public class Chessboard : MonoBehaviour
 
   [Header("Prefabs & Materials")]
   [SerializeField] private GameObject[] prefabs;
-  [SerializeField] private Material[] teamMaterials;
+  // [SerializeField] private Material[] teamMaterials;
 
   // LOGIC
   private ChessPiece[,] chessPieces;
@@ -162,11 +162,11 @@ public class Chessboard : MonoBehaviour
 
   private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
   {
-    ChessPiece cp = Instantiate(prefabs[(int)type - 1].GetComponent<ChessPiece>());
+    ChessPiece cp = Instantiate(prefabs[((int)type - 1) + 6 * team].GetComponent<ChessPiece>());
 
     cp.type = type;
     cp.team = team;
-    cp.GetComponent<MeshRenderer>().material = teamMaterials[team];
+    // cp.GetComponent<MeshRenderer>().material = teamMaterials[team];
 
     return cp;
   }
