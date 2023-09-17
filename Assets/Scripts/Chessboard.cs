@@ -241,7 +241,7 @@ public class Chessboard : MonoBehaviour
   }
 
   // Positioning
-  private void PositionAllPieces()
+  private void PositionAllPieces(bool force = true)
   {
     for (int x = 0; x < TILE_COUNT_X; x++)
     {
@@ -249,7 +249,7 @@ public class Chessboard : MonoBehaviour
       {
         if (chessPieces[x, y] != null)
         {
-          PositionSinglePiece(x, y, true);
+          PositionSinglePiece(x, y, force);
         }
       }
     }
@@ -297,7 +297,40 @@ public class Chessboard : MonoBehaviour
   }
 
   public void OnResetButton() {
-    
+    // Fields reset
+    currentlyDragging = null;
+    availableMoves = new List<Vector2Int>();
+
+    // UI
+    victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
+    victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
+    victoryScreen.SetActive(false);
+
+    // Clean up
+    for (int x = 0; x < TILE_COUNT_X; x++) {
+      for (int y = 0; y < TILE_COUNT_Y; y++)
+      {
+        if(chessPieces[x,y] != null) {
+          Destroy(chessPieces[x,y].gameObject);
+        }
+
+        chessPieces[x, y] = null;
+      }
+    }
+
+    for (int i = 0; i < deadWhites.Count; i++) {
+      Destroy(deadWhites[i].gameObject);
+    }
+    for (int i = 0; i < deadBlacks.Count; i++) {
+      Destroy(deadBlacks[i].gameObject);
+    }
+
+    deadWhites.Clear();
+    deadBlacks.Clear();
+
+    SpawnAllPieces();
+    PositionAllPieces();
+    isWhiteTurn = true;
   }
 
   public void OnExitButton() {
