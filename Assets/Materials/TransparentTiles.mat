@@ -12,7 +12,7 @@ Material:
   m_Parent: {fileID: 2100000, guid: 0d8d72f86bf8343e4a9d3d7e30318ba7, type: 2}
   m_ModifiedSerializedProperties: 16
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
+  - _ALPHAMODULATE_ON
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -30,8 +30,11 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _DstBlend: 10
-    - _DstBlendAlpha: 10
+    - _Blend: 3
+    - _DstBlend: 0
+    - _DstBlendAlpha: 1
+    - _SrcBlend: 2
+    - _SrcBlendAlpha: 0
     - _Surface: 1
     - _ZWrite: 0
     m_Colors:
