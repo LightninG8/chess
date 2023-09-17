@@ -5,10 +5,11 @@ public class Chessboard : MonoBehaviour
 {
   [Header("Art stuff")]
   [SerializeField] private Material tileMaterial;
-  [SerializeField] private float tileSize = 1.0f;
-  [SerializeField] private float yOffset = 0.2f;
-  [SerializeField] private float deathSize = 0.3f;
-  [SerializeField] private float deathSpacing = 0.3f;
+  [SerializeField] private float tileSize = 1.5f;
+  [SerializeField] private float yOffset = 0.01f;
+  [SerializeField] private float deathSize = 0.7f;
+  [SerializeField] private float deathSpacing = 0.8f;
+  [SerializeField] private float dragOffset = 1.5f;
   [SerializeField] private Vector3 boardCenter = Vector3.zero;
 
 
@@ -114,6 +115,16 @@ public class Chessboard : MonoBehaviour
       {
         currentlyDragging.SetPosition(GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
         currentlyDragging = null;
+      }
+    }
+
+
+    // If we're dragging a piece
+    if (currentlyDragging) {
+      Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * yOffset);
+      float distance = 0.0f;
+      if (horizontalPlane.Raycast(ray, out distance)) {
+        currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
       }
     }
   }

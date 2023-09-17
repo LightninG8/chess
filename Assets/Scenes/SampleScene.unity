@@ -261,8 +261,9 @@ MonoBehaviour:
   tileMaterial: {fileID: 2100000, guid: 9af35a258a3514b6a845581c3589dda1, type: 2}
   tileSize: 1.5
   yOffset: 0.01
-  deathSize: 0.5
-  deathSpacing: 0.3
+  deathSize: 0.7
+  deathSpacing: 0.8
+  dragOffset: 1.5
   boardCenter: {x: 0, y: 0, z: 0}
   prefabs:
   - {fileID: 5715707100443872431, guid: 23d53f240296842ee93ba154cbfe9a51, type: 3}
