@@ -287,6 +287,15 @@ public class Chessboard : MonoBehaviour
     availableMoves.Clear();
   }
 
+  // Checkmate
+  private void CheckMate(int team) {
+    DisplayVictory(team);
+  } 
+
+  private void DisplayVictory(int winningTeam) {
+
+  }
+
   // Operations
   private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
   {
@@ -321,6 +330,10 @@ public class Chessboard : MonoBehaviour
       // If it's the enemy team
       if (ocp.team == 0)
       {
+        if (ocp.type == ChessPieceType.King) {
+          CheckMate(1);
+        }
+
         deadWhites.Add(ocp);
 
         ocp.SetScale(Vector3.one * deathSize);
@@ -328,6 +341,9 @@ public class Chessboard : MonoBehaviour
       }
       else
       {
+        if (ocp.type == ChessPieceType.King) {
+          CheckMate(0);
+        }
         deadBlacks.Add(ocp);
 
         ocp.SetScale(Vector3.one * deathSize);
