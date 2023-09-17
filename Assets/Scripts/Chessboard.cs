@@ -133,6 +133,7 @@ public class Chessboard : MonoBehaviour
       if (horizontalPlane.Raycast(ray, out distance))
       {
         currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
+        RemoveHighlightTiles();
       }
     }
   }
