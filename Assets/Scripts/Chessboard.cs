@@ -11,11 +11,10 @@ public class Chessboard : MonoBehaviour
   [SerializeField] private float deathSpacing = 0.8f;
   [SerializeField] private float dragOffset = 1.5f;
   [SerializeField] private Vector3 boardCenter = Vector3.zero;
-
+  [SerializeField] private GameObject victoryScreen;
 
   [Header("Prefabs & Materials")]
   [SerializeField] private GameObject[] prefabs;
-  // [SerializeField] private Material[] teamMaterials;
 
   // LOGIC
   private ChessPiece[,] chessPieces;
@@ -293,7 +292,16 @@ public class Chessboard : MonoBehaviour
   } 
 
   private void DisplayVictory(int winningTeam) {
+    victoryScreen.SetActive(true);
+    victoryScreen.transform.GetChild(winningTeam).gameObject.SetActive(true);
+  }
 
+  public void OnResetButton() {
+    
+  }
+
+  public void OnExitButton() {
+    Application.Quit();
   }
 
   // Operations
