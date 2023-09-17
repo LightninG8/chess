@@ -15,6 +15,8 @@ public class Chessboard : MonoBehaviour
 
   // LOGIC
   private ChessPiece[,] chessPieces;
+  private ChessPiece currentlyDragging;
+
   private const int TILE_COUNT_X = 8;
   private const int TILE_COUNT_Y = 8;
   private GameObject[,] tiles;
@@ -62,6 +64,33 @@ public class Chessboard : MonoBehaviour
         currentHover = hitPosition;
         tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
       }
+
+      // If we press down on the mouse
+      if (Input.GetMouseButtonDown(0))
+      {
+        if (chessPieces[hitPosition.x, hitPosition.y] != null)
+        {
+          // Is it our turn?
+          if (true)
+          {
+            currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
+          }
+        }
+      }
+
+      // If we are reliasing the mouse button
+      if (currentlyDragging != null && Input.GetMouseButtonUp(0))
+      {
+        Vector2Int previousPosition = new Vector2Int(currentlyDragging.currentX, currentlyDragging.currentY);
+
+        bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
+
+        if (!validMove)
+        {
+          currentlyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
+          currentlyDragging = null;
+        }
+      }
     }
     else
     {
@@ -72,6 +101,8 @@ public class Chessboard : MonoBehaviour
       }
     }
   }
+
+
   // Generate the board
   private void GenerateAllTiles(float tileSize, int tileCountX, int tileCountY)
   {
@@ -166,7 +197,6 @@ public class Chessboard : MonoBehaviour
 
     cp.type = type;
     cp.team = team;
-    // cp.GetComponent<MeshRenderer>().material = teamMaterials[team];
 
     return cp;
   }
@@ -190,7 +220,7 @@ public class Chessboard : MonoBehaviour
   {
     chessPieces[x, y].currentX = x;
     chessPieces[x, y].currentY = y;
-    chessPieces[x, y].transform.position = GetTileCenter(x, y);
+    chessPieces[x, y].SetPosition(GetTileCenter(x, y), force);
   }
 
   private Vector3 GetTileCenter(int x, int y)
@@ -199,6 +229,30 @@ public class Chessboard : MonoBehaviour
   }
 
   // Operations
+  private bool MoveTo(ChessPiece cp, int x, int y)
+  {
+    Vector2Int previousPosition = new Vector2Int(cp.currentX, cp.currentY);
+
+    // Is there another piece on the target position?
+    if (chessPieces[x, y] != null)
+    {
+      ChessPiece ocp = chessPieces[x, y];
+
+      if (cp.team == ocp.team)
+      {
+
+        return false;
+      }
+    }
+
+    chessPieces[x, y] = cp;
+    chessPieces[previousPosition.x, previousPosition.y] = null;
+
+    PositionSinglePiece(x, y);
+
+    return true;
+  }
+
   private Vector2Int LookupTileIndex(GameObject hitInfo)
   {
     for (int x = 0; x < TILE_COUNT_X; x++)
